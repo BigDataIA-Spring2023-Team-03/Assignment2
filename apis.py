@@ -31,6 +31,7 @@ async def read_main():
 # GET all files based on metadata filters
 
 
+
 # POST file to S3 bucket from Streamlit UI
 @app.post("/s3_transfer", status_code=status.HTTP_201_CREATED, tags=['files'])
 # def copy_file_to_dest_s3(src_bucket, dest_bucket, dest_folder, prefix, files_selected):
@@ -39,7 +40,7 @@ def copy_file_to_dest_s3(request: schemas.S3_Transfer):
     s3_src = boto3.client('s3', config=Config(signature_version=UNSIGNED))
     
     src_response = s3_src.get_object(Bucket=request.src_bucket, Key=request.prefix+request.files_selected)
-    src_response = s3_src.get_object(Bucket='noaa-goes18', Key=request.prefix+request.files_selected)
+    # src_response = s3_src.get_object(Bucket='noaa-goes18', Key=request.prefix+request.files_selected)
 
 
     # Upload S3 to Destination:
@@ -52,7 +53,7 @@ def copy_file_to_dest_s3(request: schemas.S3_Transfer):
     # Raise except if file has already been transferred
     try:
         # raise client error
-        s3_dest.head_object(Bucket='damg7245', Key=dest_file_name)
+        s3_dest.head_object(Bucket=request.dest_bucket, Key=dest_file_name)
         # TODO: CHANGE STATUS
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'{request.files_selected} already transferred to S3!')
     # Transfer file
@@ -63,5 +64,5 @@ def copy_file_to_dest_s3(request: schemas.S3_Transfer):
 
     # API Response
     # TODO: 
-    return dest_url
+    return {'Destination s3 URL': dest_url}
 

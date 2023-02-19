@@ -19,9 +19,24 @@ if 'key' not in st.session_state:
 
 
 #########################################
-# API TESTING:
-response = requests.get(url = 'http://127.0.0.1:8000/hello')
-st.write(response.json())
+# # API TESTING:
+# response = requests.get(url = 'http://127.0.0.1:8000/hello')
+# st.write(response.json())
+
+# # S3_Transfer API
+# data = {
+#   "action": "test",
+#   "src_bucket": "noaa-goes18",
+#   "dest_bucket": "damg7245",
+#   "dest_folder": "assignment1",
+#   "prefix": "ABI-L1b-RadC/2023/001/00/",
+#   "files_selected": "OR_ABI-L1b-RadC-M6C01_G18_s20230010001170_e20230010003544_c20230010003582.nc"
+# }
+# st.write(type(data))
+# response = requests.post(url = 'http://127.0.0.1:8000/s3_transfer', json=data)
+# st.write(response.json())
+# dest_url = response.json().get('Destination s3 URL')
+# st.write(f'dest_url: {dest_url}')
 
 
 

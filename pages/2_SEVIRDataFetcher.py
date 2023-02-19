@@ -10,6 +10,7 @@ from aws_logging import write_logs
 from Util.dbUtil import *
 from Util.S3Util import S3Util
 import string
+import requests
 
 ###################################################################################
 # Side Bar
@@ -165,7 +166,7 @@ def copy_file_to_dest_s3(src_bucket, dest_bucket, dest_folder, prefix, files_sel
 
     # Check if file has already beeen transferred
     try:
-        s3_dest.head_object(Bucket='damg7245', Key=dest_file_name)
+        s3_dest.head_object(Bucket=dest_bucket, Key=dest_file_name)
         # st.write("""File Transfer Error: File already exists!""")
         error = '<p style="font-family:sans-serif; color:Red; font-size: 20px;">File Transfer Error: File already exists!</p>'
         st.markdown(error, unsafe_allow_html=True)
@@ -269,7 +270,20 @@ if search_method == 'Field Selection' and data_source == 'GOES-18 geostationary 
 
                         with col2:
                             if st.button('Transfer File to S3 Bucket'):
-                                dest_url = copy_file_to_dest_s3(BUCKET_NAME, dest_bucket, dest_folder, prefix, files_selected)
+                                # dest_url = copy_file_to_dest_s3(BUCKET_NAME, dest_bucket, dest_folder, prefix, files_selected)
+                                # Changed to API response
+                                data = {
+                                        "action": "test",
+                                        "src_bucket": BUCKET_NAME,
+                                        "dest_bucket": dest_bucket,
+                                        "dest_folder": dest_folder,
+                                        "prefix": prefix,
+                                        "files_selected": files_selected
+                                        }
+                                response = requests.post(url = 'http://127.0.0.1:8000/s3_transfer', json=data)
+                                # st.write(response.json())
+                                dest_url = response.json().get('Destination s3 URL')
+                                
                                 write_logs(f'User Action: Transfered file to S3 Bucket - {dest_url}')
                                 if 'Error' in dest_url:
                                     st.write(dest_url)
@@ -355,7 +369,19 @@ if search_method == 'Field Selection' and data_source == 'NEXRAD weather radars'
 
                             with col2:
                                 if st.button('Transfer File to S3 Bucket'):
-                                    dest_url = copy_file_to_dest_s3(BUCKET_NAME, dest_bucket, dest_folder, prefix, files_selected)
+                                    # dest_url = copy_file_to_dest_s3(BUCKET_NAME, dest_bucket, dest_folder, prefix, files_selected)
+                                    # Changed to API response
+                                    data = {
+                                            "action": "test",
+                                            "src_bucket": BUCKET_NAME,
+                                            "dest_bucket": dest_bucket,
+                                            "dest_folder": dest_folder,
+                                            "prefix": prefix,
+                                            "files_selected": files_selected
+                                            }
+                                    response = requests.post(url = 'http://127.0.0.1:8000/s3_transfer', json=data)
+                                    # st.write(response.json())
+                                    dest_url = response.json().get('Destination s3 URL')
                                     write_logs(f'User Action: Transfered file to S3 Bucket - {dest_url}')
                                     if 'Error' in dest_url:
                                         st.write(dest_url)
