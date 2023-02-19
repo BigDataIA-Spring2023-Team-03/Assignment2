@@ -1,5 +1,5 @@
 import unittest
-from SEVIRDataFetcher import filename_url_producer
+from pages.SEVIRDataFetcher import filename_url_producer
 import pandas as pd
 
 

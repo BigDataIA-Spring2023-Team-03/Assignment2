@@ -4,6 +4,13 @@ import pandas as pd
 from streamlit_folium import st_folium
 from Util.dbUtil import DbUtil
 
+###################################################################################
+# Side Bar
+with st.sidebar:
+    username = 'test' 
+    st.write(f'Current User: {st.session_state.username}')
+###################################################################################
+
 
 # data = pd.read_csv('nexrad-stations.csv')
 
