@@ -1,14 +1,17 @@
+from Util import DbUtil, S3Util
+
 from fastapi import FastAPI, Depends, status, Response, HTTPException
 import os
 print(os.getcwd())
 import schemas # Import from same directory
+from Authentication import auth, auth_bearer
 import boto3
 from botocore import UNSIGNED
 from botocore.config import Config
-from botocore.errorfactory import ClientError # checking if file exists already
 from decouple import config 
 
 app = FastAPI()
+dbUtil = DbUtil.DbUtil('metadata.db')
 
 ########################################################################################################################
 # AWS Destination Credentials:
@@ -22,18 +25,13 @@ dest_folder = 'assignment1'
 
 
 # for TESTING
-@app.get("/hello") # , status_code=status.HTTP_200_OK)
+@app.get("/") # , status_code=status.HTTP_200_OK)
 async def read_main():
     return {"msg": "Hello World"}
 
 
-
-# GET all files based on metadata filters
-
-
-
 # POST file to S3 bucket from Streamlit UI
-@app.post("/s3_transfer", status_code=status.HTTP_201_CREATED, tags=['files'])
+@app.post("/s3_transfer", status_code=status.HTTP_201_CREATED, dependencies=[Depends(auth_bearer.JWTBearer())], tags=['files'])
 # def copy_file_to_dest_s3(src_bucket, dest_bucket, dest_folder, prefix, files_selected):
 def copy_file_to_dest_s3(request: schemas.S3_Transfer):
     # Get S3 File:
@@ -65,4 +63,19 @@ def copy_file_to_dest_s3(request: schemas.S3_Transfer):
     # API Response
     # TODO: 
     return {'Destination s3 URL': dest_url}
+
+
+@app.post('/user/register', tags = ['user'])
+def register(user: schemas.UserRegisterSchema):
+    dbUtil.insert('users', ['first_name', 'last_name', 'email', 'password_hash'], [(user.first_name, user.last_name, user.email, auth.get_password_hash(user.password))])
+    return auth.signJWT(user.email)
+
+
+@app.post('/user/login', tags = ['user'])
+def login(user: schemas.UserLoginSchema):
+    if dbUtil.check_user('users', user.email, user.password):
+        return auth.signJWT(user.email)
+    else:
+        raise HTTPException(status_code=401, detail='Invalid username and/or password')
+
 
