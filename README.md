@@ -66,6 +66,23 @@ The nextrad station data is plotted on a map in the second page.
 
 #### Creating script to fetch metadata from S3 and store it in a database along with fetching file names dynamically from the S3 bucket and then saving file to S3 user's bucket "Boto3"
 
+## FastAPI
+
+APIs:
+- Login/ Registration:
+- File Transfer:
+- Get Filters:
+
+## Docker
+
+Containers:
+- FastAPI Container - 
+- Streamlit Container - 
+
+## Airflow
+
+TBD
+
 ## AWS Config
 
 Utilized Amazon S3, Amazon IAM, and Amazon CloudWatch. Used Jared's AWS account as the root user and created a service account, DAMG_Service_Account, for the rest of the team. Service account has access to the necessary S3 buckets. Public users are able to download the transferred files from our S3 bucket.
