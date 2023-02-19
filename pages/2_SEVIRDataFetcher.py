@@ -11,14 +11,11 @@ from Util.dbUtil import *
 from Util.S3Util import S3Util
 import string
 
-#########################################
-#Pages:
-st.set_page_config(
-    page_title="DAMG7245_Spring2023 Group 03",
-    page_icon="👋",
-)
-
-st.sidebar.success("Select a page above.")
+###################################################################################
+# Side Bar
+with st.sidebar:
+    username = 'test' 
+    st.write(f'Current User: {st.session_state.username}')
 
 #########################################
 
