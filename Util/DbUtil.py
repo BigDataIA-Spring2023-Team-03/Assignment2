@@ -1,12 +1,13 @@
-from Util.S3Util import S3Util
 import sqlite3
-import pandas as pd
+
+import Authentication.auth as auth
+
 
 class DbUtil:
     conn = None
 
     def __init__(self, db_file_name):
-        self.conn = sqlite3.connect(db_file_name)
+        self.conn = sqlite3.connect(db_file_name, check_same_thread=False)
         self.cursor = self.conn.cursor()
 
     def create_table(self, table_name, *columns):
@@ -34,39 +35,51 @@ class DbUtil:
         l = self.cursor.fetchall()
         return sorted([x[0] for x in l])
 
+    def check_user(self, table_name, email, password):
+        query = f"SELECT email, password_hash FROM {table_name}  WHERE email = '{email}'"
+        self.cursor.execute(query)
+        l = self.cursor.fetchall()
+        return len(l) > 0 and len(l) == 1 and auth.verify_password(password, l[0][1])
+
 
 if __name__ == '__main__':
-    column_names_geos = {'id': 'INTEGER PRIMARY KEY AUTOINCREMENT', 'product': 'TEXT', 'year': 'TEXT', 'day_of_year': 'TEXT', 'hour': 'TEXT'}
-    column_names_nexrad = {'id': 'INTEGER PRIMARY KEY AUTOINCREMENT', 'year': 'TEXT', 'month': 'TEXT', 'day': 'TEXT', 'station': 'TEXT'}
+    column_names_geos = {'product': 'TEXT', 'year': 'TEXT', 'day_of_year': 'TEXT', 'hour': 'TEXT'}
+    column_names_nexrad = {'year': 'TEXT', 'month': 'TEXT', 'day': 'TEXT', 'station': 'TEXT'}
+    column_names_user = {'first_name': 'TEXT', 'last_name': 'TEXT', 'email': 'TEXT', 'password_hash': 'TEXT'}
     column_names_nexrad_lat_long = {'station': 'TEXT', 'LAT': 'REAL', 'LONG': 'REAL', 'city': 'TEXT'}
     db_file_name = '../metadata.db'
     bucket_name_geos = 'noaa-goes18'
     bucket_name_nexrad = 'noaa-nexrad-level2'
     table_name_geos = 'geos18'
     table_name_nexrad = 'nexrad'
+    table_name_user = 'users'
     table_name_nexrad_lat_long = 'nexrad_lat_long'
     resource_name = 's3'
 
     # s3util = S3Util(resource_name, bucket_name_nexrad)
-    s3util = S3Util(resource_name, bucket_name_geos)
-    pages = s3util.get_pages(prefix='ABI-L1b-RadC')
+    # s3util = S3Util(resource_name, bucket_name_geos)
+    # pages = s3util.get_pages(prefix='ABI-L1b-RadC')
     # pages = s3util.get_pages(prefix='2023')
     util = DbUtil(db_file_name=db_file_name)
     try:
         # GEOS
         # creation of table
-        columns_to_create = [key + ' ' + value for key, value in column_names_nexrad_lat_long.items()]
-        column_keys = list(column_names_nexrad_lat_long.keys())
-        util.create_table(table_name_nexrad_lat_long, *columns_to_create)
+        # columns_to_create = [key + ' ' + value for key, value in column_names_nexrad_lat_long.items()]
+        # column_keys = list(column_names_nexrad_lat_long.keys())
+        # util.create_table(table_name_nexrad_lat_long, *columns_to_create)
+        #
+        # df = pd.read_csv('../data/nexrad-stations.csv')
+        #
+        # filtered_df = df[['ICAO', 'LAT', 'LON', 'NAME']]
+        #
+        # l = list(filtered_df.itertuples(index = False, name = None))
+        #
+        # util.insert(table_name_nexrad_lat_long, column_keys, l)
 
-        df = pd.read_csv('../data/nexrad-stations.csv')
-
-        filtered_df = df[['ICAO', 'LAT', 'LON', 'NAME']]
-
-        l = list(filtered_df.itertuples(index = False, name = None))
-
-        util.insert(table_name_nexrad_lat_long, column_keys, l)
-        # util.create_table(table_name_geos, *columns_to_create)
+        # columns_to_create = [key + ' ' + value for key, value in column_names_user.items()]
+        # util.create_table(table_name_user, *columns_to_create)
+        # print('finished')
+        print(auth.verify_password('string', '$2b$12$3VWAfDMp9Z0LRD4IE03.UOKVDTct94x7l2AGoMuDjXGZt8tQvG2cu'))
 
         # insertion of rows
         # rows = set()
