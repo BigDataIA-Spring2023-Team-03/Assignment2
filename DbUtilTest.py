@@ -1,6 +1,6 @@
 import os
 import unittest
-from Util.dbUtil import DbUtil
+from Util.DbUtil import DbUtil
 
 class TestDbUtil(unittest.TestCase):
     TEST_DB = 'test.db'

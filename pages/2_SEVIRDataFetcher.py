@@ -7,7 +7,7 @@ from botocore.errorfactory import ClientError # checking if file exists already
 import webbrowser
 from decouple import config
 from aws_logging import write_logs
-from Util.dbUtil import *
+from Util.DbUtil import *
 from Util.S3Util import S3Util
 import string
 import requests

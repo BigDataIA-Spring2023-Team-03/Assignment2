@@ -2,7 +2,7 @@ import folium
 import streamlit as st
 import pandas as pd
 from streamlit_folium import st_folium
-from Util.dbUtil import DbUtil
+from Util.DbUtil import DbUtil
 
 ###################################################################################
 # Side Bar
