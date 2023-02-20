@@ -1,22 +1,31 @@
 # app/Dockerfile
-
-FROM python:3.9-slim
+FROM python:3.10.6
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    curl \
-    software-properties-common \
-    git \
-    && rm -rf /var/lib/apt/lists/*
+#RUN apt-get update && apt-get install -y \
+#    build-essential \
+#    curl \
+#    software-properties-common \
+#    git \
+#    && rm -rf /var/lib/apt/lists/*
+#
+#RUN git clone https://github.com/streamlit/streamlit-example.git .
 
-RUN git clone https://github.com/streamlit/streamlit-example.git .
+COPY ./1_Login_Page.py ./requirements.txt  /app/
 
-RUN pip3 install -r requirements.txt
+COPY ./aws_logging.py /app/
+
+COPY ./Util /app/Util
+
+COPY ./Authentication /app/Authentication
+
+COPY ./pages /app/pages
+
+RUN pip install -r requirements.txt
+
+#HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
 
 EXPOSE 8501
 
-HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
-
-ENTRYPOINT ["streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+CMD ["streamlit", "run", "1_Login_Page.py"]

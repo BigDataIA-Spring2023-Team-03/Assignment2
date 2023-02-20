@@ -1,6 +1,7 @@
 .env
 
 venv_assignment1
+venv_assignment2
 
 great_expectations/checkpoints
 great_expectations/data
