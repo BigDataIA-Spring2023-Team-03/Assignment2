@@ -8,7 +8,7 @@ from streamlit_extras.switch_page_button import switch_page
 #########################################
 # Pages:
 st.set_page_config(
-    page_title="DAMG7245_Spring2023 Group 03",
+    page_title="Register",
     page_icon="👋",
 )
 
@@ -24,23 +24,18 @@ if 'email' not in st.session_state:
 if 'password' not in st.session_state:
     st.session_state.password = ''
 
-# if 'email_login' not in st.session_state:
-#     st.session_state.email_login = ''
-#
-# if 'password_login' not in st.session_state:
-#     st.session_state.password_login = ''
-
 if 'access_token' not in st.session_state:
     st.session_state.access_token = ''
 
-if 'login_disabled' not in st.session_state:
-    st.session_state.login_disabled = False
-
-if 'logout_disabled' not in st.session_state:
-    st.session_state.logout_disabled = True
+if 'register_disabled' not in st.session_state:
+    st.session_state.register_disabled = False
 
 if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
+    
+if 'logout_disabled' not in st.session_state:
+    st.session_state.logged_in = True
+
 # st.session_state.update(st.session_state)
 
 # Initialize username in session state
@@ -138,32 +133,33 @@ if 'logged_in' not in st.session_state:
 ###################################################################################
 # Side Bar
 
-
-
+first_name = st.text_input("First Name", st.session_state.first_name, placeholder='First Name')
+last_name = st.text_input("Last Name", st.session_state.last_name, placeholder='Last Name')
 email = st.text_input("Username", st.session_state.email, placeholder='Username')
 password = st.text_input("Password", st.session_state.password, placeholder='Password', type = 'password')
-login_submit = st.button('Login', disabled = st.session_state.login_disabled)
+register_submit = st.button('Register', disabled = st.session_state.register_disabled)
 
-if login_submit:
+if register_submit:
+    st.session_state.first_name = first_name
+    st.session_state.last_name = last_name
     st.session_state.email = email
     st.session_state.password = password
-    login_user = {
+    register_user = {
+        'first_name': st.session_state.first_name,
+        'last_name': st.session_state.last_name,
         'email': st.session_state.email,
         'password': st.session_state.password
     }
-    res = requests.post(url='http://localhost:8000/user/login', data=json.dumps(login_user))
+    res = requests.post(url='http://localhost:8000/user/register', data=json.dumps(register_user))
     if res and res.status_code == 200:
-        # st.experimental_rerun()
         st.session_state.access_token = res.json()['access_token']
-        st.session_state.login_disabled = True
+        st.session_state.register_disabled = True
         st.session_state.logged_in = True
         st.session_state.logout_disabled = False
         switch_page('sevirdatafetcher')
 
-    elif res.status_code == 401:
-        switch_page('registerpage')
     else:
-        error = "<p style='font-family:sans-serif; color:Red; font-size: 20px;'>Error: User doesn't exist!</p>"
+        error = "<p style='font-family:sans-serif; color:Red; font-size: 20px;'>Error: User registration failed!</p>"
         st.markdown(error, unsafe_allow_html=True)
 
 
@@ -172,16 +168,6 @@ with st.sidebar:
         st.write(f'Current User: {st.session_state.email}')
     else:
         st.write('Current User: Not Logged In')
-
-    logout_submit = st.button('LogOut', disabled = st.session_state.logout_disabled)
-    if logout_submit:
-        for key in st.session_state.keys():
-            if key == 'login_disabled' or key == 'logout_disabled' or key == 'register_disabled':
-                st.session_state[key] = not st.session_state[key]
-            else:
-                st.session_state[key] = ''
-        st.session_state.login_disabled = False
-        st.experimental_rerun()
 
 
 
