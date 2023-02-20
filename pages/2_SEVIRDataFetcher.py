@@ -15,8 +15,7 @@ import requests
 ###################################################################################
 # Side Bar
 with st.sidebar:
-    username = 'test' 
-    st.write(f'Current User: {st.session_state.username}')
+    st.write(f'Current User: {st.session_state.email}')
 
 #########################################
 
