@@ -1,6 +1,6 @@
-from Util import DbUtil, S3Util
+from Util.DbUtil import DbUtil
 
-from fastapi import FastAPI, Depends, status, Response, HTTPException
+from fastapi import FastAPI, Depends, status, HTTPException
 import os
 print(os.getcwd())
 import schemas # Import from same directory
@@ -11,7 +11,7 @@ from botocore.config import Config
 from decouple import config 
 
 app = FastAPI()
-dbUtil = DbUtil.DbUtil('metadata.db')
+dbUtil = DbUtil('metadata.db')
 
 ########################################################################################################################
 # AWS Destination Credentials:

@@ -6,7 +6,7 @@ from botocore.config import Config
 from botocore.errorfactory import ClientError # checking if file exists already
 import webbrowser
 from decouple import config
-from aws_logging import write_logs
+import aws_logging
 from Util.DbUtil import *
 from Util.S3Util import S3Util
 import string
@@ -131,7 +131,7 @@ if not st.session_state.email == "":
         file_name_input = st.text_input('File Name:')
         # TODO: Need rules on what is a valid file_name input
         if file_name_input:
-            write_logs(f'User Input: {file_name_input}')
+            aws_logging.write_logs(f'User Input: {file_name_input}')
             # TEST
             # st.write(BUCKET_NAME)
             if ('nexrad' in BUCKET_NAME and file_name_input[0:3] == 'OR_'): # or ('noaa-goes' in BUCKET_NAME and file_name_input[0:3] != 'OR_'):
@@ -142,7 +142,7 @@ if not st.session_state.email == "":
                     url = filename_url_producer(BUCKET_NAME, file_name_input)
                     st.write("")
                     st.write("Generated URL: " + url)
-                    write_logs(f'Generated URL: {url}')
+                    aws_logging.write_logs(f'Generated URL: {url}')
                 except Exception as e:
                     error = f"""<p style="font-family:sans-serif; color:Red; font-size: 20px;">File Name Error: Incorrect File Name Format!</p>
                             <p style="font-family:sans-serif; color:Red; font-size: 20px; margin-left: 25px;">- Exception: {e}</p>"""
@@ -273,8 +273,8 @@ if not st.session_state.email == "":
                         st.write("")
                         st.write("URLs match? :")
                         st.write(url == public_url)
-                        write_logs(f'User Input: {user_inputs}')
-                        write_logs(f'Generated URL: {url}')
+                        aws_logging.write_logs(f'User Input: {user_inputs}')
+                        aws_logging.write_logs(f'Generated URL: {url}')
 
                         st.text("")
                         st.text("")
@@ -284,7 +284,7 @@ if not st.session_state.email == "":
                             col1, col2 = st.columns(2)
                             with col1:
                                 if st.button('Download File'):
-                                    write_logs('User Action: Downloaded File Locally')
+                                    aws_logging.write_logs('User Action: Downloaded File Locally')
                                     webbrowser.open_new_tab(url)
                                     st.write('File Downloaded Locally')
 
@@ -304,7 +304,7 @@ if not st.session_state.email == "":
                                     # st.write(response.json())
                                     dest_url = response.json().get('Destination s3 URL')
 
-                                    write_logs(f'User Action: Transfered file to S3 Bucket - {dest_url}')
+                                    aws_logging.write_logs(f'User Action: Transfered file to S3 Bucket - {dest_url}')
                                     if 'Error' in dest_url:
                                         st.write(dest_url)
                                     st.write(f'Destination s3 URL: {dest_url}')
@@ -372,8 +372,8 @@ if not st.session_state.email == "":
                             st.write("")
                             st.write("URLs match? :")
                             st.write(url == public_url)
-                            write_logs(f'User Input: {user_inputs}')
-                            write_logs(f'Generated URL: {url}')
+                            aws_logging.write_logs(f'User Input: {user_inputs}')
+                            aws_logging.write_logs(f'Generated URL: {url}')
 
                             st.text("")
                             st.text("")
@@ -383,7 +383,7 @@ if not st.session_state.email == "":
                                 col1, col2 = st.columns(2)
                                 with col1:
                                     if st.button('Download File'):
-                                        write_logs('User Action: Downloaded File Locally')
+                                        aws_logging.write_logs('User Action: Downloaded File Locally')
                                         webbrowser.open_new_tab(url)
                                         st.write('File Downloaded Locally')
 
@@ -402,7 +402,7 @@ if not st.session_state.email == "":
                                         response = requests.post(url = 'http://127.0.0.1:8000/s3_transfer', json=data)
                                         # st.write(response.json())
                                         dest_url = response.json().get('Destination s3 URL')
-                                        write_logs(f'User Action: Transfered file to S3 Bucket - {dest_url}')
+                                        aws_logging.write_logs(f'User Action: Transfered file to S3 Bucket - {dest_url}')
                                         if 'Error' in dest_url:
                                             st.write(dest_url)
                                         st.write(f'Destination s3 URL: {dest_url}')

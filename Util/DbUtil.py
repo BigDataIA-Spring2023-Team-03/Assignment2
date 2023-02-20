@@ -1,6 +1,6 @@
 import sqlite3
 
-import Authentication.auth as auth
+from Authentication import auth as auth
 
 
 class DbUtil:

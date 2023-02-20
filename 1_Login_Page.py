@@ -1,6 +1,4 @@
 import streamlit as st
-import apis
-from schemas import UserRegisterSchema, UserLoginSchema
 import requests
 import json
 from streamlit_extras.switch_page_button import switch_page
@@ -151,7 +149,7 @@ if login_submit:
         'email': st.session_state.email,
         'password': st.session_state.password
     }
-    res = requests.post(url='http://localhost:8000/user/login', data=json.dumps(login_user))
+    res = requests.post(url='http://backend:8000/user/login', data=json.dumps(login_user))
     if res and res.status_code == 200:
         # st.experimental_rerun()
         st.session_state.access_token = res.json()['access_token']
