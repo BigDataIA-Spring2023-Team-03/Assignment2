@@ -406,6 +406,7 @@ if not st.session_state.email == "":
                                         if 'Error' in dest_url:
                                             st.write(dest_url)
                                         st.write(f'Destination s3 URL: {dest_url}')
+    util.conn.close()
 else:
     st.write('Please Login!')
 
