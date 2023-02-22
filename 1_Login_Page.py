@@ -22,12 +22,6 @@ if 'email' not in st.session_state:
 if 'password' not in st.session_state:
     st.session_state.password = ''
 
-# if 'email_login' not in st.session_state:
-#     st.session_state.email_login = ''
-#
-# if 'password_login' not in st.session_state:
-#     st.session_state.password_login = ''
-
 if 'access_token' not in st.session_state:
     st.session_state.access_token = ''
 
