@@ -35,6 +35,13 @@ class DbUtil:
         l = self.cursor.fetchall()
         return sorted([x[0] for x in l])
 
+    def check_user_registered(self, table_name, email):
+        query = f"SELECT email, password_hash FROM {table_name}  WHERE email = '{email}'"
+        self.cursor.execute(query)
+        l = self.cursor.fetchall()
+        return len(l) > 0 and len(l) == 1
+
+    #TODO - use the above function in the below function
     def check_user(self, table_name, email, password):
         query = f"SELECT email, password_hash FROM {table_name}  WHERE email = '{email}'"
         self.cursor.execute(query)
