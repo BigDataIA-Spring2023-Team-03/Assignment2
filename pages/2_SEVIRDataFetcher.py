@@ -3,7 +3,7 @@ import os
 import boto3
 from botocore import UNSIGNED
 from botocore.config import Config
-from botocore.errorfactory import ClientError # checking if file exists already
+from botocore.errorfactory import ClientError
 import webbrowser
 from decouple import config
 import aws_logging
@@ -279,13 +279,9 @@ if not st.session_state.email == "":
                                      }
                     }
 
-            # HANDLING 403 EXCEPTION, DUE TO 5 MIN LOGIN EXPIRATION
             try:
                 response = requests.get(url = 'http://backend:8000/field_selection', json=data, headers={'Authorization':  f'Bearer {st.session_state.access_token}'})
                 response.raise_for_status()
-                # TEST
-                # st.write(response)
-                # st.write(response.raise_for_status())
             except requests.exceptions.HTTPError as err:
                 if response.status_code == 401:
                     st.error("Unauthorized: Invalid username or password")
@@ -296,7 +292,6 @@ if not st.session_state.email == "":
                     st.error(f"HTTP error occurred: {err}")
             except requests.exceptions.RequestException as err:
                 st.error(f"An error occurred: {err}")
-            # st.write(response.json())
             day_list = response.json().get('Filter List')
 
             day_list.insert(0, "")
@@ -304,8 +299,6 @@ if not st.session_state.email == "":
             f'Please select {metadata[2]}', day_list)
 
             if day_selected:
-                # hour_list =util.filter("geos18", 'hour', product='ABI-L1b-RadC', year=year_selected, day_of_year=day_selected)
-                # Changed to API Response
                 data = {
                         "table_name": "geos18",
                         "req_value": "hour",
@@ -315,13 +308,9 @@ if not st.session_state.email == "":
                                         }
                         }
 
-                # HANDLING 403 EXCEPTION, DUE TO 5 MIN LOGIN EXPIRATION
                 try:
                     response = requests.get(url = 'http://backend:8000/field_selection', json=data, headers={'Authorization':  f'Bearer {st.session_state.access_token}'})
                     response.raise_for_status()
-                    # TEST
-                    # st.write(response)
-                    # st.write(response.raise_for_status())
                 except requests.exceptions.HTTPError as err:
                     if response.status_code == 401:
                         st.error("Unauthorized: Invalid username or password")
@@ -332,12 +321,10 @@ if not st.session_state.email == "":
                         st.error(f"HTTP error occurred: {err}")
                 except requests.exceptions.RequestException as err:
                     st.error(f"An error occurred: {err}")
-                # st.write(response.json())
                 hour_list = response.json().get('Filter List')
                 
                 hour_list.insert(0, "")
-                hour_selected = st.selectbox(
-                f'Please select {metadata[3]}', hour_list)
+                hour_selected = st.selectbox(f'Please select {metadata[3]}', hour_list)
 
                 if hour_selected:
                     prefix = "ABI-L1b-RadC/"+year_selected+"/"+day_selected+"/"+hour_selected+"/"
@@ -398,39 +385,6 @@ if not st.session_state.email == "":
     else:
         file_name = files_selected
 
-    # # TEST --> only need once?
-    # # st.write(f"Testing: Search_Method = {search_method} and File_Name_Input = {file_name}")
-    # if (search_method == 'File Name' and file_name) or (search_method == 'Field Selection' and file_name):
-        
-    #     col1, col2 = st.columns(2)
-    #     with col1:
-    #         if st.button('Download File'):
-    #             aws_logging.write_logs('User Action: Downloaded File Locally')
-    #             webbrowser.open_new_tab(url)
-    #             st.write('File Downloaded Locally')
-
-    #     with col2:
-    #         if st.button('Transfer File to S3 Bucket'):
-    #             # dest_url = copy_file_to_dest_s3(BUCKET_NAME, dest_bucket, dest_folder, prefix, files_selected)
-    #             # Changed to API response
-    #             data = {
-    #                     "search_method": search_method,
-    #                     "src_bucket": BUCKET_NAME,
-    #                     "dest_bucket": dest_bucket,
-    #                     "dest_folder": dest_folder,
-    #                     "prefix": prefix,
-    #                     "file_name": file_name
-    #                     }
-    #             response = requests.post(url = 'http://backend:8000/s3_transfer', json=data)
-    #             # st.write(response.json())
-    #             dest_url = response.json().get('Destination s3 URL')
-
-    #             aws_logging.write_logs(f'User Action: Transfered file to S3 Bucket - {dest_url}')
-    #             if 'Error' in dest_url:
-    #                 st.write(dest_url)
-    #             st.write(f'Destination s3 URL: {dest_url}')
-
-
 #######################################################################################################
     if search_method == 'Field Selection' and data_source == 'NEXRAD weather radars':
         BUCKET_NAME = 'noaa-nexrad-level2'
@@ -448,9 +402,6 @@ if not st.session_state.email == "":
         try:
             response = requests.get(url = 'http://backend:8000/field_selection', json=data, headers={'Authorization':  f'Bearer {st.session_state.access_token}'})
             response.raise_for_status()
-            # TEST
-            # st.write(response)
-            # st.write(response.raise_for_status())
         except requests.exceptions.HTTPError as err:
             if response.status_code == 401:
                 st.error("Unauthorized: Invalid username or password")
@@ -461,28 +412,21 @@ if not st.session_state.email == "":
                 st.error(f"HTTP error occurred: {err}")
         except requests.exceptions.RequestException as err:
             st.error(f"An error occurred: {err}")
-        # st.write(response.json())
         year_list = response.json().get('Filter List')
 
         year_list.insert(0, "")
         year_selected = st.selectbox(f'Please select {metadata[0]}', year_list)
 
         if year_selected:
-            # month_list =util.filter("nexrad", 'month', year=year_selected)
-            # Changed to API Response
             data = {
                     "table_name": "nexrad",
                     "req_value": "month",
                     "input_values": {'year': year_selected}
                     }
 
-            # HANDLING 403 EXCEPTION, DUE TO 5 MIN LOGIN EXPIRATION
             try:
                 response = requests.get(url = 'http://backend:8000/field_selection', json=data, headers={'Authorization':  f'Bearer {st.session_state.access_token}'})
                 response.raise_for_status()
-                # TEST
-                # st.write(response)
-                # st.write(response.raise_for_status())
             except requests.exceptions.HTTPError as err:
                 if response.status_code == 401:
                     st.error("Unauthorized: Invalid username or password")
@@ -493,7 +437,6 @@ if not st.session_state.email == "":
                     st.error(f"HTTP error occurred: {err}")
             except requests.exceptions.RequestException as err:
                 st.error(f"An error occurred: {err}")
-            # st.write(response.json())
             month_list = response.json().get('Filter List')
 
             month_list.insert(0, "")
@@ -501,8 +444,6 @@ if not st.session_state.email == "":
             f'Please select {metadata[1]}', month_list)
 
             if month_selected:
-                # day_list =util.filter("nexrad", 'day', year=year_selected, month=month_selected)
-                # Changed to API Response
                 data = {
                         "table_name": "nexrad",
                         "req_value": "day",
@@ -511,13 +452,9 @@ if not st.session_state.email == "":
                                          }
                         }
 
-                # HANDLING 403 EXCEPTION, DUE TO 5 MIN LOGIN EXPIRATION
                 try:
                     response = requests.get(url = 'http://backend:8000/field_selection', json=data, headers={'Authorization':  f'Bearer {st.session_state.access_token}'})
                     response.raise_for_status()
-                    # TEST
-                    # st.write(response)
-                    # st.write(response.raise_for_status())
                 except requests.exceptions.HTTPError as err:
                     if response.status_code == 401:
                         st.error("Unauthorized: Invalid username or password")
@@ -528,7 +465,6 @@ if not st.session_state.email == "":
                         st.error(f"HTTP error occurred: {err}")
                 except requests.exceptions.RequestException as err:
                     st.error(f"An error occurred: {err}")
-                # st.write(response.json())
                 day_list = response.json().get('Filter List')
 
                 
@@ -537,8 +473,6 @@ if not st.session_state.email == "":
                 f'Please select {metadata[2]}', day_list)
 
                 if day_selected:
-                    # station_list =util.filter("nexrad", 'station', year=year_selected, month=month_selected, day=day_selected)
-                    # Changed to API Response
                     data = {
                             "table_name": "nexrad",
                             "req_value": "station",
@@ -548,13 +482,9 @@ if not st.session_state.email == "":
                                             }
                             }
 
-                    # HANDLING 403 EXCEPTION, DUE TO 5 MIN LOGIN EXPIRATION
                     try:
                         response = requests.get(url = 'http://backend:8000/field_selection', json=data, headers={'Authorization':  f'Bearer {st.session_state.access_token}'})
                         response.raise_for_status()
-                        # TEST
-                        # st.write(response)
-                        # st.write(response.raise_for_status())
                     except requests.exceptions.HTTPError as err:
                         if response.status_code == 401:
                             st.error("Unauthorized: Invalid username or password")
@@ -565,7 +495,6 @@ if not st.session_state.email == "":
                             st.error(f"HTTP error occurred: {err}")
                     except requests.exceptions.RequestException as err:
                         st.error(f"An error occurred: {err}")
-                    # st.write(response.json())
                     station_list = response.json().get('Filter List')
                     
                     station_list.insert(0, "")
@@ -584,7 +513,6 @@ if not st.session_state.email == "":
                         for i in range(len(files)):
                             files[i] = files[i].replace(prefix, '')
 
-                        # Download all files in folder
                         files.insert(1, 'Download All Files')
 
                         files_selected = st.selectbox(
@@ -592,7 +520,6 @@ if not st.session_state.email == "":
 
                         if files_selected == 'Download All Files':
                             s3 = boto3.resource('s3', config=Config(signature_version=UNSIGNED))
-                            # Total Folder Size
                             s3_folder = prefix
                             bytes = sum([object.size for object in s3.Bucket(BUCKET_NAME).objects.filter(Prefix=s3_folder)])
                             st.write(f'Total Folder Size: {round(bytes//1000/1024/1024, 3)} GB')
@@ -616,15 +543,11 @@ if not st.session_state.email == "":
                             st.text("")
                             st.text("")
 
-    # Determined by search method to pick file_name 
     if 'file_name_input' in locals():
         file_name = file_name_input
-        # prefix = ''
     else:
         file_name = files_selected
 
-    # TEST
-    # st.write(f"Testing: Search_Method = {search_method} and File_Name_Input = {file_name}")
     if (search_method == 'File Name' and file_name) or (search_method == 'Field Selection' and file_name):
         
         col1, col2 = st.columns(2)
@@ -636,8 +559,6 @@ if not st.session_state.email == "":
 
         with col2:
             if st.button('Transfer File to S3 Bucket'):
-                # dest_url = copy_file_to_dest_s3(BUCKET_NAME, dest_bucket, dest_folder, prefix, files_selected)
-                # Changed to API response
                 data = {
                         "search_method": search_method,
                         "src_bucket": BUCKET_NAME,
@@ -647,13 +568,8 @@ if not st.session_state.email == "":
                         "file_name": file_name
                         }
                 response = requests.post(url = 'http://backend:8000/s3_transfer', json=data, headers={'Authorization':  f'Bearer {st.session_state.access_token}'})
-                # response.raise_for_status()
                 if response.status_code == 409:
                     st.error(f'{file_name} already transferred to S3!')
-                # TESTING
-                # st.write(data)
-                # st.write(response)
-                # st.write(response.json())
                 dest_url = response.json().get('Destination s3 URL')
 
                 aws_logging.write_logs(f'User Action: Transfered file to S3 Bucket - {dest_url}')
