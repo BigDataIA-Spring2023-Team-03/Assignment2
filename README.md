@@ -82,7 +82,7 @@ The FASTAPI Fetcher was built by the BigDataIA-Spring2023-Team-03 group as part 
 
 ## CLAAT Link 
 
-For Detailed documentation- [Click here]([https://codelabs-preview.appspot.com/?file_id=1jWZRlWLSZw73qNv_FUd2FOhLIxVbF2EclaAxaLFgOgk#8](https://codelabs-preview.appspot.com/?file_id=13bISkcPZwNQ5-8rs55OgNK-DbexBzB3MhbuWXRKY9kI#7))
+For Detailed documentation- [Click here](https://codelabs-preview.appspot.com/?file_id=13bISkcPZwNQ5-8rs55OgNK-DbexBzB3MhbuWXRKY9kI#7)
 
 ## Contributions
 
