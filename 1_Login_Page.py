@@ -31,6 +31,9 @@ if 'login_disabled' not in st.session_state:
 if 'logout_disabled' not in st.session_state:
     st.session_state.logout_disabled = True
 
+if 'register_disabled' not in st.session_state:
+    st.session_state.register_disabled = False
+
 if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
 
@@ -71,7 +74,7 @@ with st.sidebar:
     logout_submit = st.button('LogOut', disabled = st.session_state.logout_disabled)
     if logout_submit:
         for key in st.session_state.keys():
-            if key == 'login_disabled' or key == 'logout_disabled' or key == 'register_disabled':
+            if key == 'login_disabled' or key == 'logout_disabled' or key == 'register_disabled' or key == 'logged_in':
                 st.session_state[key] = not st.session_state[key]
             else:
                 st.session_state[key] = ''

@@ -30,7 +30,7 @@ with st.sidebar:
     logout_submit = st.button('LogOut', disabled=st.session_state.logout_disabled)
     if logout_submit:
         for key in st.session_state.keys():
-            if key == 'login_disabled' or key == 'logout_disabled' or key == 'register_disabled':
+            if key == 'login_disabled' or key == 'logout_disabled' or key == 'register_disabled'or key == 'logged_in':
                 st.session_state[key] = not st.session_state[key]
             else:
                 st.session_state[key] = ''
@@ -125,6 +125,22 @@ if not st.session_state.email == "":
             core_url = f'https://noaa-goes18.s3.amazonaws.com/{product_fn}/{year}/{day_of_year}/{hour}/{file_name}'
 
         return prefix, core_url
+
+    def download_s3_folder(bucket_name, s3_folder, local_dir=None):
+        bucket = s3.Bucket(bucket_name)
+        # TODO: Only first 5 files for now
+        counter = 0
+        for obj in bucket.objects.filter(Prefix=s3_folder):
+            if counter == 5:
+                break
+            counter += 1
+            target = obj.key if local_dir is None \
+                else os.path.join(local_dir, os.path.relpath(obj.key, s3_folder))
+            if not os.path.exists(os.path.dirname(target)):
+                os.makedirs(os.path.dirname(target))
+            if obj.key[-1] == '/':
+                continue
+            bucket.download_file(obj.key, target)
 
 
     # SEARCH BY FILENAME:

@@ -24,8 +24,6 @@ COPY ./pages /app/pages
 
 RUN pip install -r requirements.txt
 
-#HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
-
 EXPOSE 8501
 
 CMD ["streamlit", "run", "1_Login_Page.py"]

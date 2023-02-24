@@ -1,8 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
-
-from Util.DbUtil import DbUtil
 from apis import app
+from Util.DbUtil import DbUtil
 
 client = TestClient(app)
 
@@ -29,7 +28,7 @@ def test_register(model):
     assert response.status_code == 200
     assert 'access_token' in response.json()
 
-# @pytest.mark.usefixtures('cleanup')
+@pytest.mark.usefixtures('cleanup')
 def test_login(model):
     # positive case
     response = client.post("/user/login", json={

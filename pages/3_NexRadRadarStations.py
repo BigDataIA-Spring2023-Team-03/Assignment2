@@ -23,7 +23,7 @@ with st.sidebar:
     logout_submit = st.button('LogOut', disabled=st.session_state.logout_disabled)
     if logout_submit:
         for key in st.session_state.keys():
-            if key == 'login_disabled' or key == 'logout_disabled' or key == 'register_disabled':
+            if key == 'login_disabled' or key == 'logout_disabled' or key == 'register_disabled' or key == 'logged_in':
                 st.session_state[key] = not st.session_state[key]
             else:
                 st.session_state[key] = ''
@@ -38,24 +38,31 @@ if not st.session_state.email == "":
     conn = util.conn
 
     res = requests.get(url='http://backend:8000/latlong')
-    l = eval(res.json()['data'])
-    data = pd.DataFrame(l, columns=["station", "LAT", "LONG", "city"])
-    st.subheader("The data here contains locations of current and archived radar stations. The map denotes these specified stations by a blue pin.")
-    st.caption("Note: You can find information like the station name and city in which station is located by hovering over the points.")
+    if res and res.status_code == 200:
+        l = eval(res.json()['data'])
+        data = pd.DataFrame(l, columns=["station", "LAT", "LONG", "city"])
+        st.subheader("The data here contains locations of current and archived radar stations. The map denotes these specified stations by a blue pin.")
+        st.caption("Note: You can find information like the station name and city in which station is located by hovering over the points.")
 
-    # Select only Columns that are needed. First 2 column will be used for plotting others can be used for labelling.
-    map_loc = data[["LAT", "LONG", "station", "city"]]
+        # Select only Columns that are needed. First 2 column will be used for plotting others can be used for labelling.
+        map_loc = data[["LAT", "LONG", "station", "city"]]
 
-    # Passing the latitude and longitutde value to plot it on map
-    map = folium.Map(location=[map_loc.LAT.mean(), map_loc.LONG.mean()], zoom_start=1, control_scale=True)
+        # Passing the latitude and longitutde value to plot it on map
+        map = folium.Map(location=[map_loc.LAT.mean(), map_loc.LONG.mean()], zoom_start=1, control_scale=True)
 
-    # Adding the points to the map by itterating through the dataframe
-    for index, location_info in map_loc.iterrows():
-        folium.Marker([location_info["LAT"], location_info["LONG"]],
-        popup=[location_info["LAT"], location_info["LONG"]],
-        tooltip=[location_info["LAT"], location_info["LONG"], "Station: " + location_info["station"], "City: " + location_info["city"]]).add_to(map)
+        # Adding the points to the map by itterating through the dataframe
+        for index, location_info in map_loc.iterrows():
+            folium.Marker([location_info["LAT"], location_info["LONG"]],
+            popup=[location_info["LAT"], location_info["LONG"]],
+            tooltip=[location_info["LAT"], location_info["LONG"], "Station: " + location_info["station"], "City: " + location_info["city"]]).add_to(map)
 
-    st_data = st_folium(map, width=725)
+        st_data = st_folium(map, width=725)
+    elif res and res.status_code == 409:
+        error = """<p style="font-family:sans-serif; color:Red; font-size: 20px;">Session TimedOut, Sign Back In!</p>"""
+        st.markdown(error, unsafe_allow_html=True)
+    else:
+        error = """<p style="font-family:sans-serif; color:Red; font-size: 20px;">Error while fetching the lat long data</p>"""
+        st.markdown(error, unsafe_allow_html=True)
 
     util.conn.close()
 else:
