@@ -1,0 +1,58 @@
+[2023-02-24T14:00:04.928+0000] {taskinstance.py:1083} INFO - Dependencies all met for <TaskInstance: Metadata_Airflow.scrape_geos18 manual__2023-02-24T14:00:01.553884+00:00 [queued]>
+[2023-02-24T14:00:04.935+0000] {taskinstance.py:1083} INFO - Dependencies all met for <TaskInstance: Metadata_Airflow.scrape_geos18 manual__2023-02-24T14:00:01.553884+00:00 [queued]>
+[2023-02-24T14:00:04.936+0000] {taskinstance.py:1279} INFO - 
+--------------------------------------------------------------------------------
+[2023-02-24T14:00:04.937+0000] {taskinstance.py:1280} INFO - Starting attempt 1 of 1
+[2023-02-24T14:00:04.938+0000] {taskinstance.py:1281} INFO - 
+--------------------------------------------------------------------------------
+[2023-02-24T14:00:04.946+0000] {taskinstance.py:1300} INFO - Executing <Task(PythonOperator): scrape_geos18> on 2023-02-24 14:00:01.553884+00:00
+[2023-02-24T14:00:04.954+0000] {standard_task_runner.py:55} INFO - Started process 105 to run task
+[2023-02-24T14:00:04.958+0000] {standard_task_runner.py:82} INFO - Running: ['***', 'tasks', 'run', 'Metadata_Airflow', 'scrape_geos18', 'manual__2023-02-24T14:00:01.553884+00:00', '--job-id', '11', '--raw', '--subdir', 'DAGS_FOLDER/scrape_***.py', '--cfg-path', '/tmp/tmp2y3mgq7_']
+[2023-02-24T14:00:04.960+0000] {standard_task_runner.py:83} INFO - Job 11: Subtask scrape_geos18
+[2023-02-24T14:00:05.015+0000] {task_command.py:388} INFO - Running <TaskInstance: Metadata_Airflow.scrape_geos18 manual__2023-02-24T14:00:01.553884+00:00 [running]> on host b0ca43aab42e
+[2023-02-24T14:00:05.071+0000] {taskinstance.py:1509} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=Metadata_Airflow
+AIRFLOW_CTX_TASK_ID=scrape_geos18
+AIRFLOW_CTX_EXECUTION_DATE=2023-02-24T14:00:01.553884+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=manual__2023-02-24T14:00:01.553884+00:00
+[2023-02-24T14:00:05.076+0000] {taskinstance.py:1768} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 175, in execute
+    return_value = self.execute_callable()
+  File "/home/airflow/.local/lib/python3.7/site-packages/airflow/operators/python.py", line 192, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/opt/airflow/dags/scrape_airflow.py", line 66, in scrape_geos18_metadata
+    write_logs(f"GEOS18 Metadata into Database")
+  File "/opt/airflow/dags/scrape_airflow.py", line 58, in write_logs
+    'message' : message
+  File "/home/airflow/.local/lib/python3.7/site-packages/botocore/client.py", line 530, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+  File "/home/airflow/.local/lib/python3.7/site-packages/botocore/client.py", line 944, in _make_api_call
+    operation_model, request_dict, request_context
+  File "/home/airflow/.local/lib/python3.7/site-packages/botocore/client.py", line 966, in _make_request
+    return self._endpoint.make_request(operation_model, request_dict)
+  File "/home/airflow/.local/lib/python3.7/site-packages/botocore/endpoint.py", line 119, in make_request
+    return self._send_request(request_dict, operation_model)
+  File "/home/airflow/.local/lib/python3.7/site-packages/botocore/endpoint.py", line 198, in _send_request
+    request = self.create_request(request_dict, operation_model)
+  File "/home/airflow/.local/lib/python3.7/site-packages/botocore/endpoint.py", line 137, in create_request
+    operation_name=operation_model.name,
+  File "/home/airflow/.local/lib/python3.7/site-packages/botocore/hooks.py", line 412, in emit
+    return self._emitter.emit(aliased_event_name, **kwargs)
+  File "/home/airflow/.local/lib/python3.7/site-packages/botocore/hooks.py", line 256, in emit
+    return self._emit(event_name, kwargs)
+  File "/home/airflow/.local/lib/python3.7/site-packages/botocore/hooks.py", line 239, in _emit
+    response = handler(**kwargs)
+  File "/home/airflow/.local/lib/python3.7/site-packages/botocore/signers.py", line 105, in handler
+    return self.sign(operation_name, request)
+  File "/home/airflow/.local/lib/python3.7/site-packages/botocore/signers.py", line 189, in sign
+    auth.add_auth(request)
+  File "/home/airflow/.local/lib/python3.7/site-packages/botocore/auth.py", line 418, in add_auth
+    raise NoCredentialsError()
+botocore.exceptions.NoCredentialsError: Unable to locate credentials
+[2023-02-24T14:00:05.085+0000] {taskinstance.py:1323} INFO - Marking task as FAILED. dag_id=Metadata_Airflow, task_id=scrape_geos18, execution_date=20230224T140001, start_date=20230224T140004, end_date=20230224T140005
+[2023-02-24T14:00:05.097+0000] {standard_task_runner.py:105} ERROR - Failed to execute job 11 for task scrape_geos18 (Unable to locate credentials; 105)
+[2023-02-24T14:00:05.132+0000] {local_task_job.py:208} INFO - Task exited with return code 1
+[2023-02-24T14:00:05.145+0000] {taskinstance.py:2578} INFO - 0 downstream tasks scheduled from follow-on schedule check
