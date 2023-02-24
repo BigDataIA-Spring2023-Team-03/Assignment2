@@ -9,6 +9,8 @@ services:
     command: "streamlit run --server.port 8501 --server.enableCORS false 1_Login_Page.py"
     ports:
       - "8501:8501"
+    image: manideepak0413/frontendimage:v1
+
   api:
     env_file:
       - .env
@@ -18,4 +20,5 @@ services:
     command: "uvicorn apis:app --host 0.0.0.0 --port 8000 --reload"
     ports:
       - "8000:8000"
+    image: manideepak0413/backendimage:v1
 

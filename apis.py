@@ -67,7 +67,10 @@ def copy_file_to_dest_s3(request: schemas.S3_Transfer):
 
 @app.post('/user/register', tags = ['user'])
 def register(user: schemas.UserRegisterSchema):
-    dbUtil.insert('users', ['first_name', 'last_name', 'email', 'password_hash'], [(user.first_name, user.last_name, user.email, auth.get_password_hash(user.password))])
+    if not dbUtil.check_user_registered('users', user.email):
+        dbUtil.insert('users', ['first_name', 'last_name', 'email', 'password_hash'], [(user.first_name, user.last_name, user.email, auth.get_password_hash(user.password))])
+    else:
+        raise HTTPException(status_code=409, detail='Invalid username and/or password')
     return auth.signJWT(user.email)
 
 

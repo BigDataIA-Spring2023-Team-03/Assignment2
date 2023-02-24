@@ -155,7 +155,9 @@ if register_submit:
         st.session_state.logged_in = True
         st.session_state.logout_disabled = False
         switch_page('sevirdatafetcher')
-
+    elif (res.status_code == 409):
+        error = "<p style='font-family:sans-serif; color:Red; font-size: 20px;'>Error: User already exists!</p>"
+        st.markdown(error, unsafe_allow_html=True)
     else:
         error = "<p style='font-family:sans-serif; color:Red; font-size: 20px;'>Error: User registration failed!</p>"
         st.markdown(error, unsafe_allow_html=True)
