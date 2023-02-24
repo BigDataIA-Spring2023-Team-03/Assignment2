@@ -32,6 +32,11 @@ We have used Docker containers to containerize our application into three separa
 
 ## Installation
 
+#### Pre-requisites
+Docker - https://docs.docker.com/engine/install/
+Docker App - https://docs.docker.com/get-docker/
+Apache Airflow -https://airflow.apache.org
+
 1. Clone the repository: 
 
 `git clone https://github.com/BigDataIA-Spring2023-Team-03/Assignment2.git`
