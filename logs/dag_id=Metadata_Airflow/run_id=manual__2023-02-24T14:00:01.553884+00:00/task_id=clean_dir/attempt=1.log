@@ -1,0 +1,29 @@
+[2023-02-24T14:00:04.930+0000] {taskinstance.py:1083} INFO - Dependencies all met for <TaskInstance: Metadata_Airflow.clean_dir manual__2023-02-24T14:00:01.553884+00:00 [queued]>
+[2023-02-24T14:00:04.939+0000] {taskinstance.py:1083} INFO - Dependencies all met for <TaskInstance: Metadata_Airflow.clean_dir manual__2023-02-24T14:00:01.553884+00:00 [queued]>
+[2023-02-24T14:00:04.941+0000] {taskinstance.py:1279} INFO - 
+--------------------------------------------------------------------------------
+[2023-02-24T14:00:04.942+0000] {taskinstance.py:1280} INFO - Starting attempt 1 of 1
+[2023-02-24T14:00:04.943+0000] {taskinstance.py:1281} INFO - 
+--------------------------------------------------------------------------------
+[2023-02-24T14:00:04.952+0000] {taskinstance.py:1300} INFO - Executing <Task(BashOperator): clean_dir> on 2023-02-24 14:00:01.553884+00:00
+[2023-02-24T14:00:04.959+0000] {standard_task_runner.py:55} INFO - Started process 106 to run task
+[2023-02-24T14:00:04.961+0000] {standard_task_runner.py:82} INFO - Running: ['***', 'tasks', 'run', 'Metadata_Airflow', 'clean_dir', 'manual__2023-02-24T14:00:01.553884+00:00', '--job-id', '12', '--raw', '--subdir', 'DAGS_FOLDER/scrape_***.py', '--cfg-path', '/tmp/tmp81gl4cal']
+[2023-02-24T14:00:04.963+0000] {standard_task_runner.py:83} INFO - Job 12: Subtask clean_dir
+[2023-02-24T14:00:05.015+0000] {task_command.py:388} INFO - Running <TaskInstance: Metadata_Airflow.clean_dir manual__2023-02-24T14:00:01.553884+00:00 [running]> on host b0ca43aab42e
+[2023-02-24T14:00:05.064+0000] {taskinstance.py:1509} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=Metadata_Airflow
+AIRFLOW_CTX_TASK_ID=clean_dir
+AIRFLOW_CTX_EXECUTION_DATE=2023-02-24T14:00:01.553884+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=manual__2023-02-24T14:00:01.553884+00:00
+[2023-02-24T14:00:05.067+0000] {subprocess.py:63} INFO - Tmp dir root location: 
+ /tmp
+[2023-02-24T14:00:05.068+0000] {subprocess.py:75} INFO - Running command: ['/bin/bash', '-c', 'echo "Cleaning following files" ; ls -l /home/***/ ; rm -rf /home/***/*']
+[2023-02-24T14:00:05.084+0000] {subprocess.py:86} INFO - Output:
+[2023-02-24T14:00:05.087+0000] {subprocess.py:93} INFO - Cleaning following files
+[2023-02-24T14:00:05.091+0000] {subprocess.py:93} INFO - total 0
+[2023-02-24T14:00:05.094+0000] {subprocess.py:97} INFO - Command exited with return code 0
+[2023-02-24T14:00:05.117+0000] {taskinstance.py:1323} INFO - Marking task as SUCCESS. dag_id=Metadata_Airflow, task_id=clean_dir, execution_date=20230224T140001, start_date=20230224T140004, end_date=20230224T140005
+[2023-02-24T14:00:05.136+0000] {local_task_job.py:208} INFO - Task exited with return code 0
+[2023-02-24T14:00:05.157+0000] {taskinstance.py:2578} INFO - 1 downstream tasks scheduled from follow-on schedule check

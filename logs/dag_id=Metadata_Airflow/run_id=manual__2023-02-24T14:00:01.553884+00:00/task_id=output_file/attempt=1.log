@@ -1,0 +1,27 @@
+[2023-02-24T14:00:06.291+0000] {taskinstance.py:1083} INFO - Dependencies all met for <TaskInstance: Metadata_Airflow.output_file manual__2023-02-24T14:00:01.553884+00:00 [queued]>
+[2023-02-24T14:00:06.296+0000] {taskinstance.py:1083} INFO - Dependencies all met for <TaskInstance: Metadata_Airflow.output_file manual__2023-02-24T14:00:01.553884+00:00 [queued]>
+[2023-02-24T14:00:06.297+0000] {taskinstance.py:1279} INFO - 
+--------------------------------------------------------------------------------
+[2023-02-24T14:00:06.298+0000] {taskinstance.py:1280} INFO - Starting attempt 1 of 1
+[2023-02-24T14:00:06.299+0000] {taskinstance.py:1281} INFO - 
+--------------------------------------------------------------------------------
+[2023-02-24T14:00:06.306+0000] {taskinstance.py:1300} INFO - Executing <Task(BashOperator): output_file> on 2023-02-24 14:00:01.553884+00:00
+[2023-02-24T14:00:06.311+0000] {standard_task_runner.py:55} INFO - Started process 112 to run task
+[2023-02-24T14:00:06.313+0000] {standard_task_runner.py:82} INFO - Running: ['***', 'tasks', 'run', 'Metadata_Airflow', 'output_file', 'manual__2023-02-24T14:00:01.553884+00:00', '--job-id', '14', '--raw', '--subdir', 'DAGS_FOLDER/scrape_***.py', '--cfg-path', '/tmp/tmpo9xtoo73']
+[2023-02-24T14:00:06.314+0000] {standard_task_runner.py:83} INFO - Job 14: Subtask output_file
+[2023-02-24T14:00:06.357+0000] {task_command.py:388} INFO - Running <TaskInstance: Metadata_Airflow.output_file manual__2023-02-24T14:00:01.553884+00:00 [running]> on host b0ca43aab42e
+[2023-02-24T14:00:06.396+0000] {taskinstance.py:1509} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=Metadata_Airflow
+AIRFLOW_CTX_TASK_ID=output_file
+AIRFLOW_CTX_EXECUTION_DATE=2023-02-24T14:00:01.553884+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=manual__2023-02-24T14:00:01.553884+00:00
+[2023-02-24T14:00:06.399+0000] {subprocess.py:63} INFO - Tmp dir root location: 
+ /tmp
+[2023-02-24T14:00:06.400+0000] {subprocess.py:75} INFO - Running command: ['/bin/bash', '-c', 'echo "Hello from ***" > /home/***/output_$(date "+%Y-%m-%d_%H:%M:%S").log']
+[2023-02-24T14:00:06.410+0000] {subprocess.py:86} INFO - Output:
+[2023-02-24T14:00:06.414+0000] {subprocess.py:97} INFO - Command exited with return code 0
+[2023-02-24T14:00:06.430+0000] {taskinstance.py:1323} INFO - Marking task as SUCCESS. dag_id=Metadata_Airflow, task_id=output_file, execution_date=20230224T140001, start_date=20230224T140006, end_date=20230224T140006
+[2023-02-24T14:00:06.445+0000] {local_task_job.py:208} INFO - Task exited with return code 0
+[2023-02-24T14:00:06.457+0000] {taskinstance.py:2578} INFO - 0 downstream tasks scheduled from follow-on schedule check
