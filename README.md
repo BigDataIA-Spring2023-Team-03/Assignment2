@@ -33,9 +33,9 @@ We have used Docker containers to containerize our application into three separa
 ## Installation
 
 #### Pre-requisites
-Docker - https://docs.docker.com/engine/install/
-Docker App - https://docs.docker.com/get-docker/
-Apache Airflow -https://airflow.apache.org
+- Docker - https://docs.docker.com/engine/install/
+- Docker App - https://docs.docker.com/get-docker/
+- Apache Airflow -https://airflow.apache.org
 
 1. Clone the repository: 
 
@@ -61,12 +61,12 @@ Apache Airflow -https://airflow.apache.org
 ## Acknowledgements
 The FASTAPI Fetcher was built by the BigDataIA-Spring2023-Team-03 group as part of an assignment. Special thanks to the following technologies:
 
-Streamlit
-FASTAPI
-Great Expectation
-Apache Airflow
-Docker
-AWS S3 Bucket
+- Streamlit
+- FASTAPI
+- Great Expectation
+- Apache Airflow
+- Docker
+- AWS S3 Bucket
 
 
 
@@ -82,7 +82,7 @@ AWS S3 Bucket
 
 ## CLAAT Link 
 
-For Detailed documentation- [Click here](https://codelabs-preview.appspot.com/?file_id=1jWZRlWLSZw73qNv_FUd2FOhLIxVbF2EclaAxaLFgOgk#8)
+For Detailed documentation- [Click here]([https://codelabs-preview.appspot.com/?file_id=1jWZRlWLSZw73qNv_FUd2FOhLIxVbF2EclaAxaLFgOgk#8](https://codelabs-preview.appspot.com/?file_id=13bISkcPZwNQ5-8rs55OgNK-DbexBzB3MhbuWXRKY9kI#7))
 
 ## Contributions
 
