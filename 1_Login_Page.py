@@ -138,7 +138,7 @@ if 'logged_in' not in st.session_state:
 
 
 
-email = st.text_input("Username", st.session_state.email, placeholder='Username')
+email = st.text_input("Email", st.session_state.email, placeholder='Email')
 password = st.text_input("Password", st.session_state.password, placeholder='Password', type = 'password')
 login_submit = st.button('Login', disabled = st.session_state.login_disabled)
 

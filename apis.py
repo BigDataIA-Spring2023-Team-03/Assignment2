@@ -1,6 +1,6 @@
 from Util.DbUtil import DbUtil
 
-from fastapi import FastAPI, Depends, status, HTTPException
+from fastapi import FastAPI, Depends, status, HTTPException, Response
 import os
 print(os.getcwd())
 import schemas # Import from same directory
@@ -31,38 +31,67 @@ async def read_main():
 
 
 # POST file to S3 bucket from Streamlit UI
+# test without token
+# @app.post("/s3_transfer", status_code=status.HTTP_201_CREATED, tags=['files'])
 @app.post("/s3_transfer", status_code=status.HTTP_201_CREATED, dependencies=[Depends(auth_bearer.JWTBearer())], tags=['files'])
 # def copy_file_to_dest_s3(src_bucket, dest_bucket, dest_folder, prefix, files_selected):
-def copy_file_to_dest_s3(request: schemas.S3_Transfer):
+def copy_file_to_dest_s3(request: schemas.S3_Transfer, response: Response):
     # Get S3 File:
     s3_src = boto3.client('s3', config=Config(signature_version=UNSIGNED))
     
-    src_response = s3_src.get_object(Bucket=request.src_bucket, Key=request.prefix+request.files_selected)
-    # src_response = s3_src.get_object(Bucket='noaa-goes18', Key=request.prefix+request.files_selected)
-
+    # determined by search method:
+    if request.search_method == 'Field Selection':
+        src_response = s3_src.get_object(Bucket=request.src_bucket, Key=request.prefix+request.file_name)
+        # src_response = s3_src.get_object(Bucket='noaa-goes18', Key=request.prefix+request.file_name)
+    elif request.search_method == 'File Name':
+        src_response = s3_src.get_object(Bucket=request.src_bucket, Key=request.prefix+request.file_name)
+        # src_response = s3_src.get_object(Bucket='noaa-goes18', Key=request.prefix+request.file_name)
+        # src_response = s3_src.generate_presigned_url('get_object',
+        #                                             Params={'Bucket': request.src_bucket,
+        #                                                     'Key': request.file_name},
+        #                                             ExpiresIn=expiration)
+    
 
     # Upload S3 to Destination:
     s3_dest = boto3.client('s3',
                       aws_access_key_id=aws_access_key_id,
                       aws_secret_access_key=aws_secret_access_key)
     
-    dest_file_name = f'{request.dest_folder}/{request.src_bucket}/{request.files_selected}'
+    dest_file_name = f'{request.dest_folder}/{request.src_bucket}/{request.file_name}'
 
     # Raise except if file has already been transferred
     try:
         # raise client error
         s3_dest.head_object(Bucket=request.dest_bucket, Key=dest_file_name)
-        # TODO: CHANGE STATUS
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'{request.files_selected} already transferred to S3!')
+        # TODO: Conflict, since wfile exists, can add location if needed
+        response.status_code = status.HTTP_409_CONFLICT
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f'{request.file_name} already transferred to S3!')
     # Transfer file
     except:
         test = s3_dest.upload_fileobj(src_response['Body'], request.dest_bucket, dest_file_name)
         
         dest_url = f'https://{request.dest_bucket}.s3.amazonaws.com/{dest_file_name}'
 
-    # API Response
-    # TODO: 
-    return {'Destination s3 URL': dest_url}
+        # API Response
+        # TODO: 
+        return {'Search Method': request.search_method, 'Destination s3 URL': dest_url}
+
+
+
+# GET metadata options for 
+@app.get("/field_selection", status_code=status.HTTP_200_OK, dependencies=[Depends(auth_bearer.JWTBearer())], tags=['files'])
+# @app.get("/field_selection", status_code=status.HTTP_200_OK, tags=['files'])
+# def filter(self, table_name, req_value, **input_values):
+# util.filter("geos18", 'hour', product='ABI-L1b-RadC', year=year_selected, day_of_year=day_selected)
+def filter(request: schemas.Field_Selection):
+    # dbUtil.filter(self, table_name, req_value, **input_values)
+    # TODO:
+    filter_list = dbUtil.filter(request.table_name, request.req_value, **request.input_values)
+
+    # return list of filter options
+    # TODO:
+    return {'Filter List': filter_list}
+
 
 
 @app.post('/user/register', tags = ['user'])
