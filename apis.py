@@ -11,7 +11,7 @@ from botocore.config import Config
 from decouple import config 
 
 app = FastAPI()
-dbUtil = DbUtil('metadata.db')
+dbUtil = DbUtil('/database/metadata.db')
 
 ########################################################################################################################
 # AWS Destination Credentials:
@@ -80,5 +80,9 @@ def login(user: schemas.UserLoginSchema):
         return auth.signJWT(user.email)
     else:
         raise HTTPException(status_code=401, detail='Invalid username and/or password')
+
+@app.get('/latlong', tags = ['nexrad_radar'])
+def execute_query():
+    return {"data": dbUtil.execute_query()}
 
 
