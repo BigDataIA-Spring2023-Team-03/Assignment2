@@ -616,6 +616,7 @@ if not st.session_state.email == "":
             if st.button('Download File'):
                 aws_logging.write_logs('User Action: Downloaded File Locally')
                 webbrowser.open_new_tab(url)
+                st.write(os.getcwd())
                 st.write('File Downloaded Locally')
 
         with col2:

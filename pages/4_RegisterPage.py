@@ -28,6 +28,9 @@ if 'access_token' not in st.session_state:
 if 'register_disabled' not in st.session_state:
     st.session_state.register_disabled = False
 
+if 'login_disabled' not in st.session_state:
+    st.session_state.login_disabled = False
+
 if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
     
@@ -135,7 +138,7 @@ first_name = st.text_input("First Name", st.session_state.first_name, placeholde
 last_name = st.text_input("Last Name", st.session_state.last_name, placeholder='Last Name')
 email = st.text_input("Email", st.session_state.email, placeholder='Email')
 password = st.text_input("Password", st.session_state.password, placeholder='Password', type = 'password')
-register_submit = st.button('Register', disabled = st.session_state.register_disabled)
+register_submit = st.button('Register', disabled = st.session_state.register_disabled or st.session_state.login_disabled)
 
 if register_submit:
     st.session_state.first_name = first_name
