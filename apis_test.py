@@ -19,7 +19,7 @@ def model():
 @pytest.fixture(scope='function')
 def cleanup():
     yield
-    dbUtil = DbUtil('metadata.db')
+    dbUtil = DbUtil('database/metadata.db')
     cursor = dbUtil.conn.cursor()
     cursor.execute("DELETE FROM users WHERE email = 'email_test@gmail.com'")
     dbUtil.conn.commit()
@@ -41,7 +41,7 @@ def test_login(model):
 
     # negative case
     response = client.post("/user/login", json={
-        "email": "invalid@example.com",
-        "password": "invalidpassword"
+        "email": "random@gmail.com",
+        "password": "randomPass"
     })
     assert response.status_code == 401

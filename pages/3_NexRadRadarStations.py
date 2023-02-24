@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 from streamlit_folium import st_folium
 from Util.DbUtil import DbUtil
+import requests
 
 
 if 'email' not in st.session_state:
@@ -31,17 +32,14 @@ with st.sidebar:
         st.experimental_rerun()
 ###################################################################################
 
-
-# data = pd.read_csv('nexrad-stations.csv')
-
-
-util = DbUtil('metadata.db')
-conn = util.conn
-
-data = pd.read_sql_query(f'select * from nexrad_lat_long', conn)
-
 st.title("NexRad Radar Stations")
 if not st.session_state.email == "":
+    util = DbUtil('metadata.db')
+    conn = util.conn
+
+    res = requests.get(url='http://backend:8000/latlong')
+    l = eval(res.json()['data'])
+    data = pd.DataFrame(l, columns=["station", "LAT", "LONG", "city"])
     st.subheader("The data here contains locations of current and archived radar stations. The map denotes these specified stations by a blue pin.")
     st.caption("Note: You can find information like the station name and city in which station is located by hovering over the points.")
 
@@ -49,7 +47,7 @@ if not st.session_state.email == "":
     map_loc = data[["LAT", "LONG", "station", "city"]]
 
     # Passing the latitude and longitutde value to plot it on map
-    map = folium.Map(location=[map_loc.LAT.mean(), map_loc.LONG.mean()], zoom_start=14, control_scale=True)
+    map = folium.Map(location=[map_loc.LAT.mean(), map_loc.LONG.mean()], zoom_start=1, control_scale=True)
 
     # Adding the points to the map by itterating through the dataframe
     for index, location_info in map_loc.iterrows():

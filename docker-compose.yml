@@ -17,8 +17,18 @@ services:
     container_name: backend
     build:
       dockerfile: fastapi_docker/Dockerfile
+    volumes:
+      - database:/database
     command: "uvicorn apis:app --host 0.0.0.0 --port 8000 --reload"
     ports:
       - "8000:8000"
     image: manideepak0413/backendimage:v1
+
+volumes:
+  database:
+    driver: local
+    driver_opts:
+      type: none
+      device: /Users/manideepakreddyaila/Desktop/DAMG7245/Assignment2/database/
+      o: bind
 
