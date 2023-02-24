@@ -133,7 +133,7 @@ if 'logout_disabled' not in st.session_state:
 
 first_name = st.text_input("First Name", st.session_state.first_name, placeholder='First Name')
 last_name = st.text_input("Last Name", st.session_state.last_name, placeholder='Last Name')
-email = st.text_input("Username", st.session_state.email, placeholder='Username')
+email = st.text_input("Email", st.session_state.email, placeholder='Email')
 password = st.text_input("Password", st.session_state.password, placeholder='Password', type = 'password')
 register_submit = st.button('Register', disabled = st.session_state.register_disabled)
 
