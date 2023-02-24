@@ -3,13 +3,19 @@ from pydantic import BaseModel, EmailStr
 
 # pydantic models are called schemas = response_models
 class S3_Transfer(BaseModel):
-    action: str
+    search_method: str
     src_bucket: str
     dest_bucket: str
     dest_folder: str
     prefix: str
-    files_selected: str
+    file_name: str
 
+# For filtering to the correct field selection
+class Field_Selection(BaseModel):
+    table_name: str
+    req_value: str
+    # list of the input metadata fields
+    input_values: dict = {}
 
 
 class UserRegisterSchema(BaseModel):
