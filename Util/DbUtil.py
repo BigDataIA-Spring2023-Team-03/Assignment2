@@ -20,19 +20,14 @@ class DbUtil:
         except Exception as e:
             print(f"Error executing query: {e}")
             raise Exception("Error during query execution")
-        finally:
-            self.conn.close()
 
     def insert(self, table_name, column_names, list_of_tuples):
-        query = 'INSERT INTO {} ({}) VALUES ({})'.format(table_name, ', '.join([i for i in column_names]), ', '.join(['?' for i in range(len(column_names))])), list_of_tuples
         try:
-            self.conn.executemany(query)
+            self.conn.executemany('INSERT INTO {} ({}) VALUES ({})'.format(table_name, ', '.join([i for i in column_names]), ', '.join(['?' for i in range(len(column_names))])), list_of_tuples)
             self.conn.commit()
         except Exception as e:
             print(f"Error executing query: {e}")
             raise Exception("Error during query execution")
-        finally:
-            self.conn.close()
 
     def filter(self, table_name, req_value, **input_values):
         try:
@@ -51,8 +46,6 @@ class DbUtil:
         except Exception as e:
             print(f"Error executing query: {e}")
             raise Exception("Error during query execution")
-        finally:
-            self.conn.close()
 
     def check_user_registered(self, table_name, email):
         query = f"SELECT email, password_hash FROM {table_name}  WHERE email = '{email}'"
@@ -63,8 +56,6 @@ class DbUtil:
         except Exception as e:
             print(f"Error executing query: {e}")
             raise Exception("Error during query execution")
-        finally:
-            self.conn.close()
 
     def check_user(self, table_name, email, password):
         query = f"SELECT email, password_hash FROM {table_name}  WHERE email = '{email}'"
@@ -75,8 +66,6 @@ class DbUtil:
         except Exception as e:
             print(f"Error executing query: {e}")
             raise Exception("Error during query execution")
-        finally:
-            self.conn.close()
         
     def execute_query(self):
         query = "SELECT * from nexrad_lat_long"
@@ -87,5 +76,3 @@ class DbUtil:
         except Exception as e:
             print(f"Error executing query: {e}")
             raise Exception("Error during query execution")
-        finally:
-            self.conn.close()

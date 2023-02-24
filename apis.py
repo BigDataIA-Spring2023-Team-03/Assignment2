@@ -12,7 +12,7 @@ from botocore.config import Config
 from decouple import config
 
 app = FastAPI()
-dbUtil = DbUtil('database/metadata.db')
+dbUtil = DbUtil('/database/metadata.db')
 
 ########################################################################################################################
 # AWS Destination Credentials:

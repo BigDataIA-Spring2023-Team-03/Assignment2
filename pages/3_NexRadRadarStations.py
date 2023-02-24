@@ -55,7 +55,8 @@ if not st.session_state.email == "":
             tooltip=[location_info["LAT"], location_info["LONG"], "Station: " + location_info["station"], "City: " + location_info["city"]]).add_to(map)
 
         st_data = st_folium(map, width=725)
-    elif res and res.status_code == 409:
+    elif res and res.status_code == 403:
+        st.session_state.logout_disabled = False
         error = """<p style="font-family:sans-serif; color:Red; font-size: 20px;">Session TimedOut, Sign Back In!</p>"""
         st.markdown(error, unsafe_allow_html=True)
     else:

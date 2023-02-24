@@ -251,6 +251,7 @@ if not st.session_state.email == "":
             if response.status_code == 401:
                 st.error("Unauthorized: Invalid username or password")
             elif response.status_code == 403:
+                st.session_state.logout_disabled = False
                 st.error("Forbidden: You do not have permission to access this resource - Sign Back In!")
                 st.stop()
             else:
@@ -286,6 +287,7 @@ if not st.session_state.email == "":
                 if response.status_code == 401:
                     st.error("Unauthorized: Invalid username or password")
                 elif response.status_code == 403:
+                    st.session_state.logout_disabled = False
                     st.error("Forbidden: You do not have permission to access this resource - Sign Back In!")
                     st.stop()
                 else:
@@ -315,6 +317,7 @@ if not st.session_state.email == "":
                     if response.status_code == 401:
                         st.error("Unauthorized: Invalid username or password")
                     elif response.status_code == 403:
+                        st.session_state.logout_disabled = False
                         st.error("Forbidden: You do not have permission to access this resource - Sign Back In!")
                         st.stop()
                     else:
@@ -406,6 +409,7 @@ if not st.session_state.email == "":
             if response.status_code == 401:
                 st.error("Unauthorized: Invalid username or password")
             elif response.status_code == 403:
+                st.session_state.logout_disabled = False
                 st.error("Forbidden: You do not have permission to access this resource - Sign Back In!")
                 st.stop()
             else:
@@ -431,6 +435,7 @@ if not st.session_state.email == "":
                 if response.status_code == 401:
                     st.error("Unauthorized: Invalid username or password")
                 elif response.status_code == 403:
+                    st.session_state.logout_disabled = False
                     st.error("Forbidden: You do not have permission to access this resource - Sign Back In!")
                     st.stop()
                 else:
@@ -459,6 +464,7 @@ if not st.session_state.email == "":
                     if response.status_code == 401:
                         st.error("Unauthorized: Invalid username or password")
                     elif response.status_code == 403:
+                        st.session_state.logout_disabled = False
                         st.error("Forbidden: You do not have permission to access this resource - Sign Back In!")
                         st.stop()
                     else:
@@ -489,6 +495,7 @@ if not st.session_state.email == "":
                         if response.status_code == 401:
                             st.error("Unauthorized: Invalid username or password")
                         elif response.status_code == 403:
+                            st.session_state.logout_disabled = False
                             st.error("Forbidden: You do not have permission to access this resource - Sign Back In!")
                             st.stop()
                         else:
