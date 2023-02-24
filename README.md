@@ -1,76 +1,8 @@
-# FASTAPI Fetcher
+## Big Data Systems and Int Analytics
 
-FASTAPI Fetcher is an application that fetches GEOS-18 satellite data and NEXRAD data by making FASTAPI calls. The application is built on Streamlit, and in the backend, FAST API is used. Both the front-end and back-end are Dockerized into separate Docker containers. Users can search the data file using mainly two methods: using file name search - the file URL for S3 bucket is generated using the string filename, and using field selection - where users can select individual fields and get the file. The file can be downloaded or pushed into your S3 bucket.
+## Assignment1
 
-## FAST API
-
-FAST API is used for the main backend code to fetch the NEXRAD and GEOS-18 files. There are also authentication tokens generated for each user login. The API uses metadata.db database file to fetch values. A sign-in and authentication feature is added using JWT, which is also used for authentication for each user.
-
-## AWS Logging
-
-We have implemented AWS logging system that keeps track of all the Log information into our S3 account. The logs basically store information such as log-group-name, log-stream-name and log-events such as time, stamps, and messages.
-
-## Streamlit
-
-We have used Python Streamlit for the main front-end of our application. This Streamlit application is hosted on port 8501 for localhost users. The app is paginated into several pages like login where users could log in to their account, register page where new users could sign up, and two other main pages should be locked until login. These two pages or the file feature which connects to the bank and fast API and the station locations for NEXRAD.
-
-## Great Expectation
-
-Great expectation is a Python library that we have used for data quality testing. We have created several checkpoints to check our expectations and evaluate the data quality.
-
-## Apache Airflow
-
-Apache Airflow has been used in the project for some trigger-based automation tasks such as updating the metadata database file, which contains metadata for NEXRAD and GEOS18 metadata. From the S3 bucket, which are as follows: 
-- GEOS18 S3 bucket - https://noaa-goes18.s3.amazonaws.com/index.html/ 
-- NEXRAD S3 bucket - https://noaa-nexrad-level2.s3.amazonaws.com/index.html. 
-
-We also use Airflow DAGs to create a great expectation report, once the data is fetched and updated to the metadata database file. 
-
-## Docker
-
-We have used Docker containers to containerize our application into three separate containers. Two of these containers, namely, the front-end and back-end container, can communicate with each other, which we have defined in the docker-compose.yaml file. We have also created another container for our airflow Apache DAGs, where we have used Docker storage mount to share the metadata database file.
-
-## Installation
-
-#### Pre-requisites
-- Docker - https://docs.docker.com/engine/install/
-- Docker App - https://docs.docker.com/get-docker/
-- Apache Airflow -https://airflow.apache.org
-
-1. Clone the repository: 
-
-`git clone https://github.com/BigDataIA-Spring2023-Team-03/Assignment2.git`
-
-
-2. Open the Application folder on any IDE. For this example, we will be using Visual Studio Code.
-
-3. Open a new terminal in VSCode and type the following commands:
-
-`docker-compose build`
-
-
-4. Once the build is successful, run:
-
-`docker-compose up`
-
-
-5. For running the app locally, once the above commands are still running, go to: http://localhost:8501/
-
-6. Here, you can register or login to the application. Once logged in, you would be redirected to the DataFetcher Page.
-
-## Acknowledgements
-The FASTAPI Fetcher was built by the BigDataIA-Spring2023-Team-03 group as part of an assignment. Special thanks to the following technologies:
-
-- Streamlit
-- FASTAPI
-- Great Expectation
-- Apache Airflow
-- Docker
-- AWS S3 Bucket
-
-
-
-## Team Information
+#### Team Information
 
 | NAME                      |     NUID        |
 |---------------------------|-----------------|
@@ -79,13 +11,103 @@ The FASTAPI Fetcher was built by the BigDataIA-Spring2023-Team-03 group as part 
 |   Jared Videlefsky        |   001966442     |
 |   Rumi Jha                |   002172213     |
  
+ Submission Date: 10th February'23
 
-## CLAAT Link 
 
-For Detailed documentation- [Click here](https://codelabs-preview.appspot.com/?file_id=13bISkcPZwNQ5-8rs55OgNK-DbexBzB3MhbuWXRKY9kI#7)
+#### CLAAT Link 
+For Detail documentation- [Click here](https://codelabs-preview.appspot.com/?file_id=1jWZRlWLSZw73qNv_FUd2FOhLIxVbF2EclaAxaLFgOgk#8)
 
-## Contributions
+#### To Run:
+`pip install -r requirements.txt`
 
+`streamlit run SEVIRDataFetcher.py`
+
+#### Files Description:
+SEVIRDataFetcher.py - This has functions to generate the url from filename. It also has the streamlit code for UI.
+
+DbUtil.py - Utility class which has functions to create table, insert rows into table and to filter the data from tables.
+
+S3Util.py - Utility class to work with AWS S3
+
+aws_logging.py - To add cloudwatch logs on the users' request and the output
+
+NexradStations.py - streamlit code to plot the nexrad stations on map
+
+
+## About
+
+Implementing a a web app that fetches the metadata from the s3 bucket for NEXRAD data for the year 2023 and the Geos-18 for product RADC and the user can choose year/station/month/day of year/hour depending on the selection one would get file name dynamically from the s3 bucket. The user can download all files or download one file locally or push it to the s3 bucket.
+
+Also, Great Expectation Library is implement is implemented inorder to check the purity of the data
+
+Unit testing is done ofr all the links generated by user selection and also for a few pre-defined test cases
+
+The nextrad station data is plotted on a map in the second page.
+
+
+## Requirements
+
+1. GEOS
+    1. Explore and download selected datasets for the GOES satellite dataset
+    2. Given a filename, construct the hyperlink of data location.
+    3. Write Unit tests for all the use cases
+    4. Test using the links from [Google-Docs-file](https://docs.google.com/spreadsheets/d/1o1CLsm5OR0gH5GHbTsPWAEOGpdqqS49-P5e14ugK37Q/edit#gid=0)
+2. NexRad
+    1. Explore and download selected datasets for the NexRad dataset
+    2. Given a filename, construct the hyperlink of data location.
+    3. Write Unit tests for all the use cases
+    4. Test using the links from [Google-Docs-File](https://docs.google.com/spreadsheets/d/1o1CLsm5OR0gH5GHbTsPWAEOGpdqqS49-P5e14ugK37Q/edit#gid=0)
+    5. Use a python package of your choice and plot the NexRad locations from [Nexrad-Wikipedia-Page](https://en.wikipedia.org/wiki/NEXRAD)
+
+## Test Results
+
+#### Creating script to fetch metadata from S3 and store it in a database along with fetching file names dynamically from the S3 bucket and then saving file to S3 user's bucket "Boto3"
+
+## AWS Config
+
+Utilized Amazon S3, Amazon IAM, and Amazon CloudWatch. Used Jared's AWS account as the root user and created a service account, DAMG_Service_Account, for the rest of the team. Service account has access to the necessary S3 buckets. Public users are able to download the transferred files from our S3 bucket.
+
+### Storage - AWS S3
+Stored files in AWS S3 buckets based on the datasource.
+
+![image](https://user-images.githubusercontent.com/47637485/218146529-06bac511-193a-425a-91fa-82030dd9cc17.png)
+
+### Logging - AWS CloudWatch
+Logging was created with AWS CloudWatch. Logs contain a timestamp and a message. The messages we record are below:
+- User Input
+- Generated URL based off of the User Input
+- User Action: Download Locally or Transfer to S3 Bucket
+
+Example Logs:
+![image](https://user-images.githubusercontent.com/47637485/217996246-a39d46e0-ad0d-445a-b9ea-296f1be21abf.png)
+
+## SQLite Database
+
+1. Imported the sqlite3 library ( can be installed using the command `pip install sqlite3`)
+2. Sqlite Studio to work with the .db file (GUI)
+3. Created 3 tables `geos18`, `nexrad` and `nexrad_lat_long`.
+4. Utility class 'dbUtil' for functions like creating table, insertion of data into table and filter required data from table.
+
+## Streamlit
+
+We have implemented a Streamlit app to plot NexRad Radar Station in a frontend application.
+
+Steps:
+1. Import libraries (Streamlit, folium, Streamlit_foliumn) needed to plot the locations on map
+2. Connect to the SQlite database and fetch data from nexrad_lat_long table having latitude and longitude detail of the location
+3. Make use of folium function to plot the locations on map
+4. Launch the web application by running `streamlit run NexRadRadarStations.py` script
+
+The data in the image below shows location of current and archived radar stations. The map denotes these specified stations by a blue pin.
+Additional information can be retrieved like the station name and city in which station is located by hovering over the points.
+![image](https://user-images.githubusercontent.com/91744801/217998698-1e8d89ce-ed71-4a3e-8d77-dfc45a842986.jpg)
+
+LIVE APPLICATION - [CLICK HERE](https://bigdataia-spring2023-team-03-assignment-sevirdatafetcher-k0tjb7.streamlit.app/)
+
+## Attestation and Contribution Declaration:
+Required attestation and contribution declaration on the GitHub page:
+WE ATTEST THAT WE HAVEN’T USED ANY OTHER STUDENTS’ WORK IN OUR ASSIGNMENT
+AND ABIDE BY THE POLICIES LISTED IN THE STUDENT HANDBOOK
 - Raj Mehta - 25%
 - Mani Deepak Reddy Aila - 25%
 - Jared Videlefsky - 25%
