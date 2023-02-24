@@ -7,7 +7,9 @@ RUN pip install --upgrade pip
 WORKDIR /app
 # Change working dir to app
 
-COPY ../apis.py ../schemas.py ../requirements.txt ../metadata.db ../aws_logging.py /app/
+COPY ../apis.py ../schemas.py ../requirements.txt ../aws_logging.py /app/
+
+#COPY ../database /app/database
 
 COPY ../Authentication /app/Authentication
 
