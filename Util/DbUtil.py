@@ -17,6 +17,12 @@ class DbUtil:
         self.cursor.execute(query)
         self.conn.commit()
 
+    def alter_table(self, table_name, *columns):
+        query = f'''ALTER TABLE {table_name} 
+                    ADD COLUMN {', '.join(columns)};'''
+        self.cursor.execute(query)
+        self.conn.commit()
+
     def insert(self, table_name, column_names, list_of_tuples):
         self.conn.executemany('INSERT INTO {} ({}) VALUES ({})'.format(table_name, ', '.join([i for i in column_names]), ', '.join(['?' for i in range(len(column_names))])), list_of_tuples)
         self.conn.commit()
