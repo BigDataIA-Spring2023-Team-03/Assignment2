@@ -88,7 +88,7 @@ For Detailed documentation- [Click here](https://codelabs-preview.appspot.com/?f
 
 - Raj Mehta
 - Mani Deepak Reddy Aila - 45%
-- Jared Videlefsky
+- Jared Videlefsky - 40%
 - Rumi Jha
 
 
