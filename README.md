@@ -86,9 +86,9 @@ For Detailed documentation- [Click here](https://codelabs-preview.appspot.com/?f
 
 ## Contributions
 
-- Raj Mehta
-- Mani Deepak Reddy Aila - 45%
+- Raj Mehta - 25%
+- Mani Deepak Reddy Aila - 35%
 - Jared Videlefsky - 40%
-- Rumi Jha
+- Rumi Jha - 5%
 
 
