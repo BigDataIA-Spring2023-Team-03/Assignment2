@@ -24,6 +24,8 @@ Apache Airflow has been used in the project for some trigger-based automation ta
 - GEOS18 S3 bucket - https://noaa-goes18.s3.amazonaws.com/index.html/ 
 - NEXRAD S3 bucket - https://noaa-nexrad-level2.s3.amazonaws.com/index.html. 
 
+![image](https://user-images.githubusercontent.com/91744801/225480274-7207e6f6-a4ce-4b8f-8ed1-e1065c811eb9.jpg)
+
 We also use Airflow DAGs to create a great expectation report, once the data is fetched and updated to the metadata database file. 
 
 ## Docker
@@ -58,6 +60,8 @@ We have used Docker containers to containerize our application into three separa
 
 6. Here, you can register or login to the application. Once logged in, you would be redirected to the DataFetcher Page.
 
+7. To view airflow dags available locally, go to: http://localhost:8080/ 
+
 ## Acknowledgements
 The FASTAPI Fetcher was built by the BigDataIA-Spring2023-Team-03 group as part of an assignment. Special thanks to the following technologies:
 
@@ -87,8 +91,8 @@ For Detailed documentation- [Click here](https://codelabs-preview.appspot.com/?f
 ## Contributions
 
 - Raj Mehta - 25%
-- Mani Deepak Reddy Aila - 35%
-- Jared Videlefsky - 40%
-- Rumi Jha 
+- Mani Deepak Reddy Aila - 25%
+- Jared Videlefsky - 25%
+- Rumi Jha - 25%
 
 
