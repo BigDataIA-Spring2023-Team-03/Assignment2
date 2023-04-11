@@ -88,11 +88,5 @@ The FASTAPI Fetcher was built by the BigDataIA-Spring2023-Team-03 group as part 
 
 For Detailed documentation- [Click here](https://codelabs-preview.appspot.com/?file_id=13bISkcPZwNQ5-8rs55OgNK-DbexBzB3MhbuWXRKY9kI#7)
 
-## Contributions
-
-- Raj Mehta - 25%
-- Mani Deepak Reddy Aila - 25%
-- Jared Videlefsky - 25%
-- Rumi Jha - 25%
 
 
